@@ -15,10 +15,11 @@ const CreateChannel = () => {
   const navigate = useNavigate();
   const organization = user?.email?.slice(user.email.indexOf("@"));
   const [isNewChannel, setIsNewChannel] = useState(false);
+  const [openPost, setOpenPost] = useState(false);
   const [newPost, setNewPost] = useState(post);
   const [isBtnEnable, setIsBtnEnable] = useState(false);
   const postsRef = collection(db, "posts");
-  const responseRef = collection(db, "responses");
+  // const responseRef = collection(db, "responses");
 
   useEffect(() => {
     if (newPost.subject.length && newPost.body.length) setIsBtnEnable(true);
@@ -47,10 +48,12 @@ const CreateChannel = () => {
             New Channel
           </button>
           <div className="channel-list">
-            <p>{isNewChannel && "#My Channel"} </p>
+            <p onClick={() => setOpenPost(true)} style={{ cursor: "pointer" }}>
+              {isNewChannel && "#My Channel"}{" "}
+            </p>
           </div>
         </section>
-        {isNewChannel && (
+        {openPost && (
           <section className="right-section">
             <h2 className="channel-title">My Channel</h2>
             <form className="channel-form" onSubmit={handleSubmit}>
@@ -77,7 +80,7 @@ const CreateChannel = () => {
               </div>
               <div>
                 <button className="btn-channel" disabled={!isBtnEnable}>
-                  Create
+                  Post
                 </button>
               </div>
             </form>
